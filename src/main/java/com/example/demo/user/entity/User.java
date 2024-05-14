@@ -40,9 +40,10 @@ public class User {
     private LocalDateTime deletedAt;
 
     @Builder
-    public User(String email) {
+    public User(String nickname, String email, String password) {
         setNickname(nickname);
         setEmail(email);
         setPassword(password);
     }
+
 }
