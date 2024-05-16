@@ -1,9 +1,11 @@
 package com.example.demo.config.oauth;
 
+import com.example.demo.auth.entity.RefreshToken;
+import com.example.demo.auth.repository.RefreshTokenRepository;
 import com.example.demo.config.jwt.TokenProvider;
 import com.example.demo.user.entity.User;
 import com.example.demo.user.service.UserService;
-import com.nimbusds.oauth2.sdk.token.RefreshToken;
+import com.example.demo.util.CookieUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -66,12 +68,20 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
      * @param userId Long
      * @param refreshToken String
      * */
-    private void saveRefreshToken(Long userId, String newRefreshToken) {
+    private void saveRefreshTokenCookie(Long userId, String newRefreshToken) {
         RefreshToken refreshToken = refreshTokenRepository.findByUserId(userId)
                 .map(entity -> entity.update(newRefreshToken))
                 .orElse(new RefreshToken(userId, newRefreshToken));
 
         refreshTokenRepository.save(refreshToken);
+    }
+
+    private void addRefreshTokenToCookie(HttpServletRequest request,
+                                         HttpServletResponse response,
+                                         String refreshToken) {
+        int cookieMaxAge = (int) REFRESH_TOKEN_DURATION.toSeconds();
+        CookieUtil.deleteCookie(request, response, REFRESH_TOKEN_COOKIE_NAME);
+        CookieUtil.addCookie(response, REFRESH_TOKEN_COOKIE_NAME, refreshToken, cookieMaxAge);
     }
 
     //인증 관련 설정값, 쿠키 제거

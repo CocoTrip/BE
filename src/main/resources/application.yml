@@ -11,6 +11,14 @@ spring:
     h2:
       console:
         enabled: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            scope:
+              - email
+              - profile
 
 jwt:
   issuer: yoseb95@gmail.com
