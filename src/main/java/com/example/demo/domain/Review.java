@@ -3,6 +3,9 @@ package com.example.demo.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Entity
 @Getter
 public class Review {
@@ -39,4 +42,39 @@ public class Review {
     @Column(name = "deleted_at")
     private String deletedAt;
 
+
+    // 생성 메서드
+    public static Review createReview(Long userId, Long placeId, int score, String content, String imgUrl, String tendency) {
+        Review review = new Review();
+
+        review.userId = userId;
+        review.placeId = placeId;
+        review.score = score;
+        review.content = content;
+        review.imgUrl = imgUrl;
+        review.tendency = tendency;
+
+        String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        review.createdAt = currentTime;
+        review.updatedAt = currentTime;
+
+        return review;
+    }
+
+    // 업데이트 메서드
+    public static void updateReview(Review review, int score, String content, String imgUrl, String tendency) {
+        review.score = score;
+        review.content = content;
+        review.imgUrl = imgUrl;
+        review.tendency = tendency;
+
+        String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        review.updatedAt = currentTime;
+    }
+
+    // 삭제 메서드
+    public static void deleteReview(Review review) {
+        String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        review.deletedAt = currentTime;
+    }
 }
