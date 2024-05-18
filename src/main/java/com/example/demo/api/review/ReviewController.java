@@ -1,14 +1,12 @@
 package com.example.demo.api.review;
 
 import com.example.demo.api.ApiResponse;
+import com.example.demo.api.review.dto.ModifyReviewRequest;
 import com.example.demo.api.review.dto.WriteReviewRequest;
 import com.example.demo.domain.Review;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -32,6 +30,19 @@ public class ReviewController {
         Review review = Review.createReview(findUserId, request.getPlaceId(), request.getScore(), request.getContent(), request.getImgUrl(), request.getTendency());
         reviewService.writeReview(review);
 
+        return new ApiResponse<>(200, "API OK");
+    }
+
+    /**
+     * 리뷰 수정 API
+     */
+    @PostMapping("/{reviewId}")
+    public ApiResponse modifyReview(
+            @PathVariable("reviewId") Long reviewId,
+            @RequestBody ModifyReviewRequest request
+    ) {
+        // reviewId로 review 찾아서 업데이트
+        reviewService.updateReview(reviewId, request);
         return new ApiResponse<>(200, "API OK");
     }
 }

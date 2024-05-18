@@ -1,5 +1,6 @@
 package com.example.demo.api.review;
 
+import com.example.demo.api.review.dto.ModifyReviewRequest;
 import com.example.demo.domain.Review;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,4 +18,8 @@ public class ReviewService {
         reviewRepository.write(review);
     }
 
+    @Transactional
+    public void updateReview(Long reviewId, ModifyReviewRequest request) {
+        reviewRepository.update(reviewId, request);
+    }
 }
