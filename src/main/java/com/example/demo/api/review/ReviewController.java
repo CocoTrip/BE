@@ -1,12 +1,15 @@
 package com.example.demo.api.review;
 
 import com.example.demo.api.ApiResponse;
+import com.example.demo.api.review.dto.GetReviewsResponse;
 import com.example.demo.api.review.dto.ModifyReviewRequest;
 import com.example.demo.api.review.dto.WriteReviewRequest;
 import com.example.demo.domain.Review;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -53,5 +56,17 @@ public class ReviewController {
     public ApiResponse deleteReview(@PathVariable("reviewId") Long reviewId) {
         reviewService.deleteReview(reviewId);
         return new ApiResponse<>(200, "API OK");
+    }
+
+    /**
+     * 리뷰 조회 API
+     */
+    @GetMapping("/{placeId}")
+    public ApiResponse<GetReviewsResponse> getReviews(@PathVariable("placeId") Long placeId) {
+        // placeId로 해당 장소에 대한 리뷰 리스트 조회
+        List<Review> findReviews = reviewService.findReviewByPlaceId(placeId);
+
+        GetReviewsResponse response = new GetReviewsResponse(findReviews);
+        return new ApiResponse<>(200, "API OK", response);
     }
 }

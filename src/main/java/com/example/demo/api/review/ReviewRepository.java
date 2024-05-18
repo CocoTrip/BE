@@ -6,6 +6,8 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class ReviewRepository {
@@ -28,5 +30,11 @@ public class ReviewRepository {
     public void delete(Long reviewId) {
         Review review = em.find(Review.class, reviewId);
         Review.deleteReview(review);
+    }
+
+    public List<Review> findReviewByPlaceId(Long placeId) {
+        return em.createQuery("select r from Review r where r.placeId = :placeId", Review.class)
+                .setParameter("placeId", placeId)
+                .getResultList();
     }
 }
