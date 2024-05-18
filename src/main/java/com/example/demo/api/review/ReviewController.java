@@ -45,4 +45,13 @@ public class ReviewController {
         reviewService.updateReview(reviewId, request);
         return new ApiResponse<>(200, "API OK");
     }
+
+    /**
+     * 리뷰 삭제 API
+     */
+    @DeleteMapping("/{reviewId}")
+    public ApiResponse deleteReview(@PathVariable("reviewId") Long reviewId) {
+        reviewService.deleteReview(reviewId);
+        return new ApiResponse<>(200, "API OK");
+    }
 }

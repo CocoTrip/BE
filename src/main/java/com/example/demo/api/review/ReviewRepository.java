@@ -24,4 +24,9 @@ public class ReviewRepository {
         Review review = em.find(Review.class, reviewId);
         Review.updateReview(review, request.getScore(), request.getContent(), request.getImgUrl(), request.getTendency());
     }
+
+    public void delete(Long reviewId) {
+        Review review = em.find(Review.class, reviewId);
+        Review.deleteReview(review);
+    }
 }

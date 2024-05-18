@@ -22,4 +22,9 @@ public class ReviewService {
     public void updateReview(Long reviewId, ModifyReviewRequest request) {
         reviewRepository.update(reviewId, request);
     }
+
+    @Transactional
+    public void deleteReview(Long reviewId) {
+        reviewRepository.delete(reviewId);
+    }
 }
