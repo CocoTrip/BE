@@ -1,7 +1,7 @@
-package com.example.demo.api.review;
+package com.example.demo.domain.review;
 
 import com.example.demo.api.review.dto.ModifyReviewRequest;
-import com.example.demo.domain.Review;
+import com.example.demo.domain.review.Review;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
