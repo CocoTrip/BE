@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 
+/**
+ * TokenService
+ * 토큰을 다루는 서비스 클래스
+ * */
 @RequiredArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Service
 public class TokenService {
@@ -16,6 +20,11 @@ public class TokenService {
     private final RefreshTokenService refreshTokenService;
     private final UserService userService;
 
+    /**
+     * 리프레시 토큰으로 새로운 액세스 토큰 생성
+     * @param refreshToken 리프레시 토큰
+     * @return 새로운 액세스 토큰
+     * */
     public String createNewAccessToken(String refreshToken) {
         if(!tokenProvider.validToken(refreshToken)) {
             throw new IllegalArgumentException("유효하지 않은 리프레시 토큰입니다.");
