@@ -38,5 +38,4 @@ out/
 .vscode/
 
 ### YAML ###
-*.yml
-BE-private/
+src/main/resources/application-*.yml
