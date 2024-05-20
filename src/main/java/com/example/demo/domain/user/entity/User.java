@@ -1,18 +1,19 @@
 package com.example.demo.domain.user.entity;
 
+import com.example.demo.global.entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+public class User extends BaseEntity {
 
     //GenerationType Identify 와 비교 필요
     @Id
@@ -29,22 +30,14 @@ public class User {
     @Column(name = "password", length = 100)
     private String password;
 
-    @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
     @Builder
     public User(String nickname, String email, String password) {
-        setNickname(nickname);
-        setEmail(email);
-        setPassword(password);
+        this.nickname = nickname;
+        this.email = email;
+        this.password = password;
     }
 
 }
