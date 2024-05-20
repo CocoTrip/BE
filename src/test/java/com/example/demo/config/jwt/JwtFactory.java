@@ -1,5 +1,6 @@
 package com.example.demo.config.jwt;
 
+import com.example.demo.global.config.jwt.JwtProperties;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

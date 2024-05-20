@@ -1,7 +1,9 @@
 package com.example.demo.config.jwt;
 
-import com.example.demo.user.entity.User;
-import com.example.demo.user.repository.UserRepository;
+import com.example.demo.domain.user.entity.User;
+import com.example.demo.domain.user.repository.UserRepository;
+import com.example.demo.global.config.jwt.JwtProperties;
+import com.example.demo.global.config.jwt.TokenProvider;
 import io.jsonwebtoken.Jwts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

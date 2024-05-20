@@ -1,18 +1,20 @@
 package com.example.demo.controller;
 
-import com.example.demo.auth.dto.CreateAccessTokenRequest;
-import com.example.demo.auth.entity.RefreshToken;
-import com.example.demo.auth.repository.RefreshTokenRepository;
+import com.example.demo.domain.auth.controller.TokenApiController;
+import com.example.demo.domain.auth.dto.CreateAccessTokenRequest;
+import com.example.demo.domain.auth.entity.RefreshToken;
+import com.example.demo.domain.auth.repository.RefreshTokenRepository;
 import com.example.demo.config.jwt.JwtFactory;
-import com.example.demo.config.jwt.JwtProperties;
-import com.example.demo.user.entity.User;
-import com.example.demo.user.repository.UserRepository;
+import com.example.demo.global.config.jwt.JwtProperties;
+import com.example.demo.domain.user.entity.User;
+import com.example.demo.domain.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,8 +28,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+//@SpringBootTest
+//@AutoConfigureMockMvc
+@WebMvcTest(TokenApiController.class)
 public class TokenApiControllerTest {
     @Autowired
     protected MockMvc mockMvc;

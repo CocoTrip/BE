@@ -1,0 +1,50 @@
+package com.example.demo.domain.user.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class User {
+
+    //GenerationType Identify 와 비교 필요
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
+    private Long userId;
+
+    @Column(name = "nickname", length = 20, unique = true)
+    private String nickname;
+
+    @Column(name = "email", length = 100, unique = true, nullable = false)
+    private String email;
+
+    @Column(name = "password", length = 100)
+    private String password;
+
+    @CreatedDate
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+    @Builder
+    public User(String nickname, String email, String password) {
+        setNickname(nickname);
+        setEmail(email);
+        setPassword(password);
+    }
+
+}
