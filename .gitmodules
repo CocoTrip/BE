@@ -1,0 +1,3 @@
+[submodule "BE-private"]
+    path = BE-private
+    url = git@github.com:side-project-a/BE-private.git
