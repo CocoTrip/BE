@@ -1,10 +1,12 @@
 package com.example.demo.global.config.oauth;
 
+import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+
 import com.example.demo.domain.auth.repository.RefreshTokenRepository;
 import com.example.demo.domain.auth.service.OAuth2UserCustomService;
+import com.example.demo.domain.user.service.UserService;
 import com.example.demo.global.config.filter.TokenAuthenticationFilter;
 import com.example.demo.global.config.jwt.TokenProvider;
-import com.example.demo.domain.user.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +22,6 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Configuration
 public class WebOAuthSecurityConfig {
@@ -32,7 +33,7 @@ public class WebOAuthSecurityConfig {
 
     @Bean
     public WebSecurityCustomizer configure() {
-        return (web)-> web.ignoring()
+        return (web) -> web.ignoring()
                 .requestMatchers(toH2Console());
     }
 
@@ -53,11 +54,13 @@ public class WebOAuthSecurityConfig {
                         .anyRequest().permitAll())
                 .oauth2Login(oauth2 -> oauth2
 //                        .loginPage("/login")
-                        //Authorization 요청과 관련된 상태 저장
-                        .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint.authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository()))
-                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(oAuth2UserCustomService))
-                        //인증 성공시 실행할 핸들러
-                        .successHandler(oAuth2SuccessHandler())
+                                //Authorization 요청과 관련된 상태 저장
+                                .authorizationEndpoint(
+                                        authorizationEndpoint -> authorizationEndpoint.authorizationRequestRepository(
+                                                oAuth2AuthorizationRequestBasedOnCookieRepository()))
+                                .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(oAuth2UserCustomService))
+                                //인증 성공시 실행할 핸들러
+                                .successHandler(oAuth2SuccessHandler())
                 )
                 // /api로 시작하는 URL인 경우 401 상태 코드를 반환하도록 예외 처리
                 .exceptionHandling(exceptionHandling -> exceptionHandling
@@ -69,7 +72,7 @@ public class WebOAuthSecurityConfig {
     }
 
     @Bean
-    public  OAuth2SuccessHandler oAuth2SuccessHandler() {
+    public OAuth2SuccessHandler oAuth2SuccessHandler() {
         return new OAuth2SuccessHandler(tokenProvider,
                 refreshTokenRepository,
                 oAuth2AuthorizationRequestBasedOnCookieRepository(),

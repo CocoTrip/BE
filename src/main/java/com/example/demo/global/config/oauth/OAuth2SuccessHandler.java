@@ -2,12 +2,14 @@ package com.example.demo.global.config.oauth;
 
 import com.example.demo.domain.auth.entity.RefreshToken;
 import com.example.demo.domain.auth.repository.RefreshTokenRepository;
-import com.example.demo.global.config.jwt.TokenProvider;
 import com.example.demo.domain.user.entity.User;
 import com.example.demo.domain.user.service.UserService;
+import com.example.demo.global.config.jwt.TokenProvider;
 import com.example.demo.global.util.CookieUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -15,13 +17,9 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.IOException;
-import java.time.Duration;
-
 /**
- * OAuth2SuccessHandler
- * OAuth2 로그인 성공 시 처리하는 핸들러 클래스
- * */
+ * OAuth2SuccessHandler OAuth2 로그인 성공 시 처리하는 핸들러 클래스
+ */
 @RequiredArgsConstructor
 @Component
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -37,12 +35,14 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     /**
      * OAuth2 로그인 성공 시 처리하는 메소드
-     * @param request HttpServletRequest 객체
-     * @param response HttpServletResponse 객체
+     *
+     * @param request        HttpServletRequest 객체
+     * @param response       HttpServletResponse 객체
      * @param authentication Authentication 객체
-     * */
+     */
     @Override
-    public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException {
+    public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response,
+                                        final Authentication authentication) throws IOException {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         User user = userService.findByEmail((String) oAuth2User.getAttributes().get("email"));
 
@@ -63,21 +63,21 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     }
 
     //생성된 리프레시 토큰을 쿠키에 저장
+
     /**
      * 생성된 리프레시 토큰을 쿠키에 저장하는 메소드
-     * @param userId Long
+     *
+     * @param userId       Long
      * @param refreshToken String
-     * */
+     */
     private void saveRefreshTokenCookie(Long userId, String newRefreshToken) {
         RefreshToken refreshToken = refreshTokenRepository.findByUserId(userId)
-                .map(entity -> entity.update(newRefreshToken))
-                .orElse(new RefreshToken(userId, newRefreshToken));
+                .map(entity -> entity.update(newRefreshToken)).orElse(new RefreshToken(userId, newRefreshToken));
 
         refreshTokenRepository.save(refreshToken);
     }
 
-    private void addRefreshTokenToCookie(HttpServletRequest request,
-                                         HttpServletResponse response,
+    private void addRefreshTokenToCookie(HttpServletRequest request, HttpServletResponse response,
                                          String refreshToken) {
         int cookieMaxAge = (int) REFRESH_TOKEN_DURATION.toSeconds();
         CookieUtil.deleteCookie(request, response, REFRESH_TOKEN_COOKIE_NAME);
@@ -85,26 +85,27 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     }
 
     //인증 관련 설정값, 쿠키 제거
+
     /**
      * 인증 관련 설정값, 쿠키 제거하는 메소드
-     * @param request HttpServletRequest 객체
+     *
+     * @param request  HttpServletRequest 객체
      * @param response HttpServletResponse 객체
-     * */
+     */
     private void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {
         super.clearAuthenticationAttributes(request);
         authorizationRequestRepository.removeAuthorizationRequest(request, response);
     }
 
-
     //엑세스 토큰을 패스에 추가
+
     /**
      * 엑세스 토큰을 패스에 추가하는 메소드
+     *
      * @param accessToken String
      * @return String
-     * */
+     */
     private String getTargetUrl(String token) {
-        return UriComponentsBuilder.fromUriString(REDIRECT_PATH)
-                .queryParam("token", token)
-                .build().toUriString();
+        return UriComponentsBuilder.fromUriString(REDIRECT_PATH).queryParam("token", token).build().toUriString();
     }
 }
