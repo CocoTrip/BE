@@ -69,7 +69,6 @@ public class TokenProvider {
                     .parseClaimsJws(token);
             return true;
         } catch (Exception e) {
-//            e.printStackTrace();
             return false;
         }
     }
@@ -80,7 +79,7 @@ public class TokenProvider {
      * @param token String
      * @return Authentication
      */
-    public Authentication getAuthentication(final String token) {
+    public Authentication getAuthentication(String token) {
         Claims claims = getClaims(token);
         Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
 
@@ -97,7 +96,7 @@ public class TokenProvider {
      * @param token String
      * @return Long
      */
-    public Long getUserId(final String token) {
+    public Long getUserId(String token) {
         Claims claims = getClaims(token);
         return claims.get("id", Long.class);
     }
@@ -108,7 +107,7 @@ public class TokenProvider {
      * @param token String
      * @return Claims
      */
-    private Claims getClaims(final String token) {
+    private Claims getClaims(String token) {
         return Jwts.parser() //클레임 조회
                 .setSigningKey(jwtProperties.getSecretKey())
                 .parseClaimsJws(token)
