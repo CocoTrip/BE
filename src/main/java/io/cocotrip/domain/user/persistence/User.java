@@ -25,6 +25,9 @@ public class User extends BaseEntity {
     @Column(name = "user_id")
     private Long userId;
 
+    @Column(name = "oauth2_id", length = 100, unique = true)
+    private String oauth2Id;
+
     @Column(name = "nickname", length = 20, unique = true)
     private String nickname;
 
@@ -33,6 +36,15 @@ public class User extends BaseEntity {
 
     @Column(name = "password", length = 100)
     private String password;
+
+    @Column(name = "role", length = 20)
+    private String role;
+
+    @Column(name = "provider", length = 100)
+    private String provider;
+
+    @Column(name = "provider_id", length = 100, unique = true)
+    private String providerId;
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
