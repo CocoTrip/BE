@@ -11,15 +11,9 @@ spring:
     h2:
       console:
         enabled: true
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            scope:
-              - email
-              - profile
+  profiles:
+    include: oauth
 
 jwt:
   issuer: yoseb95@gmail.com
-  secret_key: teamprojectscret
+  secret_key: teamprojectsecret
