@@ -1,5 +1,6 @@
 package io.cocotrip.domain.user.web;
 
+import io.cocotrip.domain.auth.persistence.PrincipalDetails;
 import io.cocotrip.domain.user.application.UserService;
 import io.cocotrip.domain.user.persistence.User;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,9 @@ public class UserController {
      */
     @GetMapping("/api/me")
     public ResponseEntity<User> me(final Authentication authentication) {
-        User user = userService.findByEmail(authentication.getName());
+
+        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+        User user = principal.getUser();
         return ResponseEntity.ok(user);
     }
 
