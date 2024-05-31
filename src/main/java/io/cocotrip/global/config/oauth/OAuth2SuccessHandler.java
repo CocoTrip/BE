@@ -1,18 +1,18 @@
 package io.cocotrip.global.config.oauth;
 
+import io.cocotrip.domain.auth.persistence.PrincipalDetails;
 import io.cocotrip.domain.auth.persistence.RefreshToken;
 import io.cocotrip.domain.auth.persistence.RefreshTokenRepository;
 import io.cocotrip.domain.user.application.UserService;
 import io.cocotrip.domain.user.persistence.User;
-import io.cocotrip.global.util.CookieUtil;
 import io.cocotrip.global.config.jwt.TokenProvider;
+import io.cocotrip.global.util.CookieUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -43,8 +43,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response,
                                         final Authentication authentication) throws IOException {
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        User user = userService.findByEmail((String) oAuth2User.getAttributes().get("email"));
+        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+        User user = principal.getUser();
 
         //리프레시 토큰 생성 -> 저장 -> 쿠키에 저장
         String refreshToken = tokenProvider.generateToken(user, REFRESH_TOKEN_DURATION);
