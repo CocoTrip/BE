@@ -1,6 +1,8 @@
-package com.example.demo.domain.review;
+package com.example.demo.domain.review.application;
 
-import com.example.demo.api.review.dto.ModifyReviewRequest;
+import com.example.demo.domain.review.application.dto.request.ModifyReviewRequest;
+import com.example.demo.domain.review.persistence.Review;
+import com.example.demo.domain.review.persistence.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

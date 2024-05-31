@@ -1,6 +1,6 @@
-package com.example.demo.api.review.dto;
+package com.example.demo.domain.review.application.dto.response;
 
-import com.example.demo.domain.review.Review;
+import com.example.demo.domain.review.persistence.Review;
 import lombok.AllArgsConstructor;
 
 import java.util.List;

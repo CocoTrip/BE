@@ -1,11 +1,11 @@
-package com.example.demo.api.review;
+package com.example.demo.domain.review.web;
 
-import com.example.demo.api.ApiResponse;
-import com.example.demo.api.review.dto.GetReviewsResponse;
-import com.example.demo.api.review.dto.ModifyReviewRequest;
-import com.example.demo.api.review.dto.WriteReviewRequest;
-import com.example.demo.domain.review.Review;
-import com.example.demo.domain.review.ReviewService;
+import com.example.demo.global.common.ApiResponse;
+import com.example.demo.domain.review.application.dto.response.GetReviewsResponse;
+import com.example.demo.domain.review.application.dto.request.ModifyReviewRequest;
+import com.example.demo.domain.review.application.dto.request.WriteReviewRequest;
+import com.example.demo.domain.review.persistence.Review;
+import com.example.demo.domain.review.application.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package com.example.demo.api;
+package com.example.demo.global.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
