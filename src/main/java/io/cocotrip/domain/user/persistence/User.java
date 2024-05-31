@@ -31,7 +31,7 @@ public class User extends BaseEntity {
     @Column(name = "nickname", length = 20, unique = true)
     private String nickname;
 
-    @Column(name = "email", length = 100, unique = true, nullable = false)
+    @Column(name = "email", length = 100, unique = false, nullable = false)
     private String email;
 
     @Column(name = "password", length = 100)
@@ -50,7 +50,15 @@ public class User extends BaseEntity {
     private LocalDateTime deletedAt;
 
     @Builder
-    public User(String nickname, String email, String password) {
+    public User(String oauth2Id, String role,
+                String provider, String providerId,
+                String nickname,
+                String email,
+                String password) {
+        this.oauth2Id = oauth2Id;
+        this.role = role;
+        this.provider = provider;
+        this.providerId = providerId;
         this.nickname = nickname;
         this.email = email;
         this.password = password;
