@@ -28,4 +28,10 @@ public class UserController {
         User user = userService.findByEmail(authentication.getName());
         return ResponseEntity.ok(user);
     }
+
+    // 테스트용 코드
+    @GetMapping("/")
+    public String home() {
+        return "home";
+    }
 }
