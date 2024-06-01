@@ -1,18 +1,21 @@
 package io.cocotrip.global.config.jwt;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.context.properties.bind.ConstructorBinding;
 
 /**
  * JwtProperties application.yml 에서 jwt 설정 정보를 가져와서 담는 클래스
  */
-@Setter
 @Getter
-@Component
 @ConfigurationProperties("jwt")
 public class JwtProperties {
-    private String issuer;
-    private String secretKey;
+    private final String issuer;
+    private final String secretKey;
+
+    @ConstructorBinding
+    public JwtProperties(String issuer, String secretKey) {
+        this.issuer = issuer;
+        this.secretKey = secretKey;
+    }
 }
