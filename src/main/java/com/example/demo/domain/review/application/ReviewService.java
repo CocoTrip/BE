@@ -31,8 +31,14 @@ public class ReviewService {
         reviewRepository.delete(reviewId);
     }
 
-    public List<Review> findReviewByPlaceId(Long placeId) {
-        List<Review> result = reviewRepository.findReviewByPlaceId(placeId);
+    public List<Review> findByPlaceId(Long placeId) {
+        List<Review> result = reviewRepository.findByPlaceId(placeId);
         return result;
     }
+
+    public Review findByReviewId(Long reviewId) {
+        Review review = reviewRepository.findByReviewId(reviewId).orElseThrow(() -> new IllegalArgumentException("해당 리뷰가 존재하지 않습니다."));
+        return review;
+    }
+
 }

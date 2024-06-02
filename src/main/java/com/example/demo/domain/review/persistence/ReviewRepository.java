@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -31,9 +32,14 @@ public class ReviewRepository {
         Review.deleteReview(review);
     }
 
-    public List<Review> findReviewByPlaceId(Long placeId) {
+    public List<Review> findByPlaceId(Long placeId) {
         return em.createQuery("select r from Review r where r.placeId = :placeId", Review.class)
                 .setParameter("placeId", placeId)
                 .getResultList();
+    }
+
+    public Optional<Review> findByReviewId(Long reviewId) {
+        Review review = em.find(Review.class, reviewId);
+        return Optional.ofNullable(review);
     }
 }
