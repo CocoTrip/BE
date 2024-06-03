@@ -87,9 +87,8 @@ class ReviewRepositoryTest {
         em.clear();
 
         // then
-        // 삭제 전 : deletedAt = Null, 삭제 후 : deletedAt = 현재 시각
-        Review deletedReview = em.find(Review.class, review.getReviewId());
-        assertThat(deletedReview.getDeletedAt()).isNotNull();
+        Optional<Review> result = reviewRepository.findByReviewId(review.getReviewId());
+        assertThat(result).isEmpty();
     }
 
     @Test

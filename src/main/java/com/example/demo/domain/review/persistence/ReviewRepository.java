@@ -40,6 +40,10 @@ public class ReviewRepository {
 
     public Optional<Review> findByReviewId(Long reviewId) {
         Review review = em.find(Review.class, reviewId);
-        return Optional.ofNullable(review);
+        // 삭제 X : deletedAt = null, 삭제 O : deletedAt = 삭제 API 호출한 시간
+        if (review.getDeletedAt() == null) {
+            return Optional.ofNullable(review);
+        }
+        return Optional.empty();
     }
 }
