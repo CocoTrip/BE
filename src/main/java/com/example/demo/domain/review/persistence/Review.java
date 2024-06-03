@@ -1,6 +1,9 @@
 package com.example.demo.domain.review.persistence;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -22,9 +25,10 @@ public class Review {
     private Long placeId;
 
     @Column(name = "score")
+    @Min(1) @Max(5)
     private int score;
 
-    @Column(name = "content")
+    @Column(name = "content", length = 500)
     private String content;
 
     @Column(name = "imgUrl")
