@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:cocotrip;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+
+logging.level:
+  org.hibernate.SQL: info
