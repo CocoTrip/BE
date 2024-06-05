@@ -39,3 +39,7 @@ out/
 
 ### YAML ###
 src/main/resources/application-*.yml
+
+### Docker ###
+docker-compose.yml
+.env
