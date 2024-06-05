@@ -36,3 +36,10 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### YAML ###
+src/main/resources/application-*.yml
+
+### Docker ###
+docker-compose.yml
+.env
