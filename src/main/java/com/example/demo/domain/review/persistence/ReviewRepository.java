@@ -14,12 +14,13 @@ public class ReviewRepository {
 
     private final EntityManager em;
 
-    public void write(Review review) {
+    public Long write(Review review) {
         if (review.getReviewId() == null) {
             em.persist(review);
         } else {
             em.merge(review);
         }
+        return review.getReviewId();
     }
 
     public void update(Long reviewId, ModifyReviewRequest request) {

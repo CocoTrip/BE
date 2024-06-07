@@ -17,8 +17,9 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Transactional
-    public void writeReview(Review review) {
-        reviewRepository.write(review);
+    public Long writeReview(Review review) {
+        Long reviewId = reviewRepository.write(review);
+        return reviewId;
     }
 
     @Transactional
