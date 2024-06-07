@@ -97,13 +97,4 @@ public class ReviewController {
         GetReviewsResponse response = new GetReviewsResponse(findReviews);
         return new ApiResponse<GetReviewsResponse>(200, "API OK", response);
     }
-
-    /**
-     * 연결 테스트 API
-     * 추후에 삭제할 예정입니다.
-     */
-    @GetMapping("/test")
-    public ApiResponse testApi() {
-        return new ApiResponse(200, "Test OK");
-    }
 }
