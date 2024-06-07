@@ -14,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig {
+public class SecurityConfigTemp {
 
     /**
      *  H2 Security 통과하도록 하는 코드
