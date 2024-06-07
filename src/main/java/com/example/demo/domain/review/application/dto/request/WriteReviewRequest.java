@@ -8,5 +8,4 @@ public class WriteReviewRequest {
     private int score;
     private String content;
     private String imgUrl;
-    private String tendency;
 }

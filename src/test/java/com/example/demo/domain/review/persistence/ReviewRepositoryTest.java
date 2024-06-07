@@ -32,8 +32,7 @@ class ReviewRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        review = Review.createReview(1L, 3L, 5, "힐링하다 갑니다.",
-                "http://image.com", "소심댕");
+        review = Review.createReview(1L, 3L, 5, "힐링하다 갑니다.", "http://image.com");
 
         em.persist(review);
         em.flush();
@@ -44,8 +43,7 @@ class ReviewRepositoryTest {
     @DisplayName("정상 리뷰 작성")
     void writeReview() {
         // given
-        Review newReview = Review.createReview(1L, 3L, 5, "힐링하다 갑니다.",
-                "http://image.com", "소심댕");
+        Review newReview = Review.createReview(1L, 3L, 5, "힐링하다 갑니다.", "http://image.com");
 
         // when
         reviewRepository.write(newReview);
@@ -56,7 +54,6 @@ class ReviewRepositoryTest {
         Review findReview = em.find(Review.class, newReview.getReviewId());
         assertThat(findReview).isNotNull();
         assertThat(findReview.getScore()).isEqualTo(5);
-        assertThat(findReview.getTendency()).isEqualTo("소심댕");
     }
 
     @Test
@@ -64,7 +61,7 @@ class ReviewRepositoryTest {
     void modifyReview() {
         // given
         ModifyReviewRequest request = new ModifyReviewRequest(3, "킬링하다 갑니다.",
-                "http://image.com", "어르신댕");
+                "http://image.com");
 
         // when
         reviewRepository.update(review.getReviewId(), request);
@@ -75,7 +72,6 @@ class ReviewRepositoryTest {
         Review updatedReview = em.find(Review.class, review.getReviewId());
         assertThat(updatedReview.getScore()).isEqualTo(3);
         assertThat(updatedReview.getContent()).isEqualTo("킬링하다 갑니다.");
-        assertThat(updatedReview.getTendency()).isEqualTo("어르신댕");
     }
 
     @Test

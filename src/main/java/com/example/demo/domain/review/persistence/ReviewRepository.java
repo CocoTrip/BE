@@ -24,7 +24,7 @@ public class ReviewRepository {
 
     public void update(Long reviewId, ModifyReviewRequest request) {
         Review review = em.find(Review.class, reviewId);
-        Review.updateReview(review, request.getScore(), request.getContent(), request.getImgUrl(), request.getTendency());
+        Review.updateReview(review, request.getScore(), request.getContent(), request.getImgUrl());
     }
 
     public void delete(Long reviewId) {
@@ -33,7 +33,7 @@ public class ReviewRepository {
     }
 
     public List<Review> findByPlaceId(Long placeId) {
-        return em.createQuery("select r from Review r where r.placeId = :placeId", Review.class)
+        return em.createQuery("select r from Review r where r.placeId = :placeId and r.deletedAt is null", Review.class)
                 .setParameter("placeId", placeId)
                 .getResultList();
     }

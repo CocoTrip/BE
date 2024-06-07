@@ -34,9 +34,6 @@ public class Review {
     @Column(name = "imgUrl")
     private String imgUrl;
 
-    @Column(name = "tendency")
-    private String tendency;
-
     @Column(name = "created_at")
     private String createdAt;
 
@@ -48,7 +45,7 @@ public class Review {
 
 
     // 생성 메서드
-    public static Review createReview(Long userId, Long placeId, int score, String content, String imgUrl, String tendency) {
+    public static Review createReview(Long userId, Long placeId, int score, String content, String imgUrl) {
         Review review = new Review();
 
         review.userId = userId;
@@ -56,7 +53,6 @@ public class Review {
         review.score = score;
         review.content = content;
         review.imgUrl = imgUrl;
-        review.tendency = tendency;
 
         String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         review.createdAt = currentTime;
@@ -66,11 +62,10 @@ public class Review {
     }
 
     // 업데이트 메서드
-    public static void updateReview(Review review, int score, String content, String imgUrl, String tendency) {
+    public static void updateReview(Review review, int score, String content, String imgUrl) {
         review.score = score;
         review.content = content;
         review.imgUrl = imgUrl;
-        review.tendency = tendency;
 
         String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         review.updatedAt = currentTime;

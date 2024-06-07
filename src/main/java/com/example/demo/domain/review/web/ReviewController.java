@@ -32,7 +32,7 @@ public class ReviewController {
         Long findUserId = 1L;
 
         // 리뷰 생성 및 등록
-        Review review = Review.createReview(findUserId, request.getPlaceId(), request.getScore(), request.getContent(), request.getImgUrl(), request.getTendency());
+        Review review = Review.createReview(findUserId, request.getPlaceId(), request.getScore(), request.getContent(), request.getImgUrl());
         reviewService.writeReview(review);
         return new ApiResponse<>(200, "API OK");
     }
