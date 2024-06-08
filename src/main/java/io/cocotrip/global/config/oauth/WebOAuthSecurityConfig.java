@@ -1,14 +1,7 @@
 package io.cocotrip.global.config.oauth;
 
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.*;
 
-import io.cocotrip.domain.auth.application.OAuth2UserCustomService;
-import io.cocotrip.domain.auth.persistence.RefreshTokenRepository;
-import io.cocotrip.domain.user.application.UserService;
-import io.cocotrip.global.config.filter.TokenAuthenticationFilter;
-import io.cocotrip.global.config.jwt.TokenProvider;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -21,6 +14,14 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import io.cocotrip.domain.auth.application.OAuth2UserCustomService;
+import io.cocotrip.domain.auth.persistence.RefreshTokenRepository;
+import io.cocotrip.domain.user.application.UserService;
+import io.cocotrip.global.config.filter.TokenAuthenticationFilter;
+import io.cocotrip.global.config.jwt.TokenProvider;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Configuration
@@ -50,6 +51,7 @@ public class WebOAuthSecurityConfig {
                 // 토큰 재발급 URL은 인증 없이 접근 가능하도록 설정, 나머지 API URL은 인증 필요
                 .authorizeRequests(auth -> auth
                         .requestMatchers(new AntPathRequestMatcher("/api/token")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/trips/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/**")).authenticated()
                         .anyRequest().permitAll())
                 .oauth2Login(oauth2 -> oauth2

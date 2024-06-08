@@ -44,7 +44,6 @@ class TripServiceTest {
 			// given
 			final Trip trip = Trip.builder()
 				.userId(request.userId())
-				.title(request.title())
 				.area(request.area())
 				.travelers(request.travelers())
 				.pets(request.pets())

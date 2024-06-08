@@ -15,7 +15,6 @@ public class TripRequestCustomization extends ObjectGeneratorBase<TripRequest> {
 		return new TripRequest(
 		1L,
 			"Weekend Trip",
-			"Seoul",
 			1,
 			1,
 			LocalDate.of(2024, 5, 1),

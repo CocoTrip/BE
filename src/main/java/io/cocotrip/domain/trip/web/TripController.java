@@ -29,8 +29,8 @@ public class TripController {
 	/**
 	 * 여행 생성
 	 *
-	 * @param request: 여행 생성 DTO
-	 * @return TripResponse 객체
+	 * @param  request 여행 생성 DTO
+	 * @return TripId
 	 */
 	@PostMapping
 	public ResponseEntity<String> createTrip(@RequestBody @Valid final TripRequest request) {
@@ -44,8 +44,8 @@ public class TripController {
 	/**
 	 * 여행 일정 설계
 	 *
-	 * @param tripId: 여행ID
-	 * @param request: 일정별 장소ID 리스트 DTO
+	 * @param  tripId 	여행ID
+	 * @param  request 	일정별 장소ID 리스트 DTO
 	 * @return TripResponse 객체
 	 */
 	@PostMapping("/{tripId}")
@@ -61,14 +61,10 @@ public class TripController {
 	}
 
 	/**
-	 * TODO: 여행 일정 수정
-	 */
-
-	/**
 	 * 모든 여행 조회
 	 *
-	 * @param userId: 사용자ID (수정 필요)
-	 * @return TripResponse 객체
+	 * @param  userId	사용자ID (수정 필요)
+	 * @return Trip 	리스트
 	 */
 	@GetMapping
 	public ResponseEntity<List<Trip>> getAllTrips(final Long userId) {
@@ -82,8 +78,8 @@ public class TripController {
 	/**
 	 * 여행 상세 조회
 	 *
-	 * @param userId: 사용자ID (수정 필요)
-	 * @param tripId: 생성된 여행ID
+	 * @param  userId 	사용자ID (수정 필요)
+	 * @param  tripId 	생성된 여행ID
 	 * @return TripResponse 객체
 	 */
 	@GetMapping("/{tripId}")

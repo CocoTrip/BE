@@ -2,7 +2,6 @@ package io.cocotrip.domain.trip.application.dto;
 
 import java.time.LocalDate;
 
-import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,8 +11,8 @@ public record TripRequest(
 	@NotNull
 	Long userId,
 
-	@Nullable
-	String title,
+	// @Nullable
+	// String title,
 
 	@NotBlank
 	String area,

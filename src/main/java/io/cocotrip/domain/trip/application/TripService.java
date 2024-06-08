@@ -25,8 +25,8 @@ public class TripService {
 	/**
 	 * 여행 생성
 	 *
-	 * @param request: 여행 생성 DTO
-	 * @return TripResponse: 생성한 Trip 정보
+	 * @param  request		여행 생성 DTO
+	 * @return TripResponse	생성한 Trip 정보
 	 */
 	@Transactional
 	public String createTrip(final TripRequest request) {
@@ -35,7 +35,6 @@ public class TripService {
 
 		final Trip trip = Trip.builder()
 			.userId(request.userId())
-			.title(request.title())
 			.area(request.area())
 			.travelers(request.travelers())
 			.pets(request.pets())
@@ -53,9 +52,9 @@ public class TripService {
 	 *
 	 * TODO: 예외 처리
 	 *
-	 * @param tripId: 여행ID
-	 * @param requests: 일정별 장소ID 리스트 DTO
-	 * @return TripResponse: 일정별 장소 리스트가 추가된 Trip 정보
+	 * @param  tripId	 	여행ID
+	 * @param  requests	 	일정별 장소ID 리스트 DTO
+	 * @return TripResponse	일정별 장소 리스트가 추가된 Trip 정보
 	 */
 	@Transactional
 	public TripResponse planDesign(final String tripId, final List<PlanRequest> requests) {
@@ -64,28 +63,27 @@ public class TripService {
 
 		long duration = Period.between(trip.getStartDate(), trip.getEndDate()).getDays();
 
-		for (int i = 0; i < duration; i++){
+		for (int i = 0; i <= duration; i++){
 
 			LocalDate day = trip.getStartDate().plusDays(i);
 
-			final Plan plan	= new Plan(
-				day,
-				requests.get(i).visit()
-			);
+			if (i >= trip.getPlans().size() || trip.getPlans().get(i).getVisit().isEmpty()) {
+				final Plan plan	= new Plan(
+					day,
+					requests.get(i).visit()
+				);
 
-			trip.getPlans().add(plan);
+				trip.getPlans().add(plan);
+
+			} else {
+				trip.getPlans().get(i).setVisit(requests.get(i).visit());
+			}
 		}
 
 		tripRepository.save(trip);
 
 		return new TripResponse(trip);
 	}
-
-	/**
-	 * TODO: 여행 일정 수정
-	 *
-	 * - 일정 기간을 넘는 계획 요청 시 → 예외 처리
-	 */
 
 	/**
 	 * 모든 여행 조회
@@ -99,8 +97,8 @@ public class TripService {
 	/**
 	 * 여행 상세 조회
 	 *
-	 * @param tripId: 여행ID
-	 * @return TripResponse: 상세 일정 정보
+	 * @param  tripId		 여행ID
+	 * @return TripResponse	 상세 일정 정보
 	 */
 	public TripResponse getTrip(final String tripId) {
 		final Trip trip = tripRepository.findById(tripId).orElseThrow();

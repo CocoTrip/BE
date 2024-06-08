@@ -15,7 +15,7 @@ public class TripResponse {
 
 	private String tripId;
 	private Long userId;
-	private String title;
+	// private String title;
 	private String area;
 	private int travelers;
 	private int pets;
@@ -26,7 +26,7 @@ public class TripResponse {
 	public TripResponse(final Trip trip) {
 		this.tripId = trip.getId();
 		this.userId = trip.getUserId();
-		this.title = trip.getTitle();
+		// this.title = trip.getTitle();
 		this.area = trip.getArea();
 		this.travelers = trip.getTravelers();
 		this.pets = trip.getPets();

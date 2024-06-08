@@ -18,7 +18,7 @@ public class Trip {
 	@Id
 	private String id;
 
-	@Field("userid")
+	@Field("user_id")
 	private Long userId;
 
 	private String area;
@@ -31,14 +31,11 @@ public class Trip {
 
 	private LocalDate endDate;
 
-	private String title;
-
 	private List<Plan> plans = new ArrayList<>();
 
 	@Builder
 	public Trip(
 		final Long userId,
-		final String title,
 		final String area,
 		final int travelers,
 		final int pets,
@@ -46,7 +43,6 @@ public class Trip {
 		final LocalDate endDate
 	) {
 		this.userId = userId;
-		this.title = title != null ? title : (startDate + " "+ area);
 		this.area = area;
 		this.travelers = travelers;
 		this.pets = pets;
