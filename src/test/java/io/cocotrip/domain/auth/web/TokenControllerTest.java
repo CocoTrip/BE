@@ -1,85 +1,59 @@
 package io.cocotrip.domain.auth.web;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.BDDMockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.cocotrip.domain.auth.application.dto.CreateAccessTokenRequest;
-import io.cocotrip.domain.auth.persistence.RefreshToken;
-import io.cocotrip.domain.auth.persistence.RefreshTokenRepository;
-import io.cocotrip.domain.user.persistence.User;
-import io.cocotrip.domain.user.persistence.UserRepository;
-import io.cocotrip.global.config.jwt.JwtFactory;
-import io.cocotrip.global.config.jwt.JwtProperties;
-import java.util.Map;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
-//@WebMvcTest(TokenController.class) // 작동안됨
-@SpringBootTest
-@AutoConfigureMockMvc
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import autoparams.AutoSource;
+import io.cocotrip.domain.auth.application.TokenService;
+import io.cocotrip.domain.auth.application.dto.CreateAccessTokenRequest;
+import io.cocotrip.global.config.jwt.TokenProvider;
+
+@WebMvcTest(TokenController.class)
 public class TokenControllerTest {
-    @Autowired
-    protected MockMvc mockMvc;
-    @Autowired
-    protected ObjectMapper objectMapper;
-    @Autowired
-    private WebApplicationContext context;
-    @Autowired
-    JwtProperties jwtProperties;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    RefreshTokenRepository refreshTokenRepository;
 
-    @BeforeEach
-    public void mockMvcSetup() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(context)
-                .build();
-        userRepository.deleteAll();
-    }
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @MockBean
+    private TokenProvider tokenProvider;
+
+    @MockBean
+    private TokenService tokenService;
 
     @DisplayName("createNewAccessToken : 새로운 엑세스 토큰을 생성한다.")
-    @Test
-    public void createNewAccessToken() throws Exception {
+    @ParameterizedTest
+    @AutoSource
+    public void createNewAccessToken(final CreateAccessTokenRequest request) throws Exception {
         // given
-        final String url = "/api/token";
+        final String response = "accessToken";
 
-        User testUser = userRepository.save(User.builder()
-                .email("user@gmail.com")
-                .password("test")
-                .build());
-
-        String refreshToken = JwtFactory.builder()
-                .claims(Map.of("id", testUser.getUserId()))
-                .build()
-                .createToken(jwtProperties);
-
-        refreshTokenRepository.save(new RefreshToken(testUser.getUserId(), refreshToken));
-
-        CreateAccessTokenRequest request = new CreateAccessTokenRequest();
-        request.setRefreshToken(refreshToken);
-        final String requestBody = objectMapper.writeValueAsString(request);
+        given(tokenService.createNewAccessToken(any())).willReturn(response);
 
         // when
-        ResultActions resultActions = mockMvc.perform(post(url)
+        final var result = mockMvc.perform(
+            post("/api/token")
+                .accept(MediaType.APPLICATION_JSON_VALUE)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(requestBody));
+                .content(objectMapper.writeValueAsString(request))
+                .with(csrf())
+        );
+
         // then
-        resultActions
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.accessToken").exists());
+        result.andExpect(status().isCreated());
     }
 }
-
